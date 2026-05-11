@@ -1,36 +1,61 @@
 import 'package:finch/finch_route.dart';
 
 class McpAuthController extends AuthController<String> {
-  static const String apiKey = 'ABCD1234';
-  static const AuthType authType = AuthType.bearer;
+  McpAuthController();
+  static final allowedApiKey = '1234567890abcdef';
+  String? logedInApiKey;
 
   @override
   Future<bool> auth() async {
-    if (rq.authorization.type == authType && rq.authorization.value == apiKey) {
-      return true;
+    var res = await checkLogin();
+    if (!res.success) {
+      rq.renderView(path: 'auth');
+      return false;
     }
-
-    rq.renderView(path: 'auth');
-    return false;
-  }
-
-  @override
-  Future<bool> authApi() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<({String message, bool success, String? user})> checkLogin() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> checkPermission() async {
     return true;
   }
 
   @override
-  Future<String> loginPost() {
+  Future<bool> authApi() async {
+    return await auth();
+  }
+
+  @override
+  Future<
+      ({
+        bool success,
+        String message,
+        String? user,
+      })> checkLogin() async {
+    var type = rq.authorization.type;
+    var apikey = rq.authorization.value;
+
+    if (type == AuthType.bearer && allowedApiKey == apikey) {
+      return (
+        success: true,
+        message: 'API key is valid.',
+        user: apikey,
+      );
+    }
+
+    return (
+      success: false,
+      message: 'Not logged in.',
+      user: null,
+    );
+  }
+
+  @override
+  Future<bool> checkPermission() async {
+    if (logedInApiKey != null) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @override
+  Future<String> loginPost() async {
     throw UnimplementedError();
   }
 
@@ -50,8 +75,10 @@ class McpAuthController extends AuthController<String> {
   }
 
   @override
-  void removeAuth() {}
+  void removeAuth() {
+    logedInApiKey = null;
+  }
 
   @override
-  void updateAuth(String email, String password, String user) {}
+  void updateAuth(String email, String password, user) {}
 }

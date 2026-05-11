@@ -9,8 +9,7 @@ class HomeController extends Controller {
   Future<String> index() async {
     var todos = await TodosDB().findAll();
     rq.addParam('todos', todos.rows.assoc);
-    rq.addParam('API_KEY',
-        "${McpAuthController.authType.name} ${McpAuthController.apiKey}");
+    rq.addParam('API_KEY', "Bearer ${McpAuthController.allowedApiKey}");
     return rq.renderView(path: 'home');
   }
 }
