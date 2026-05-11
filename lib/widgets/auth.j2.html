@@ -1,0 +1,17 @@
+{% extends 'home.j2.html' %} 
+
+{% block content %}
+<!-- Auth -->
+<section class="hero">
+  <h1 class="highlight" style="color:var(--primary);text-decoration:none;font-weight:600; font-size:2.5rem;">Error 401</h1>
+  <h2>Authentication</h2>
+  <p>
+    Authentication is required to access this resource. Please provide valid
+    credentials to proceed.
+    <br/><br/>
+    Bearer token authentication is supported. Include an Authorization header with a valid token to access protected endpoints. For example:
+    <br/><br/>
+    <code class="code-block">Authorization: Bearer &lt;your_token_here&gt;</code>
+  </p>
+</section>
+{% endblock %}

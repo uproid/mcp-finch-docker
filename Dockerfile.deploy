@@ -1,0 +1,42 @@
+FROM uproid/finch:latest AS build
+WORKDIR /www
+
+
+ENV WIDGETS_TYPE='html.twig'
+ENV LANGUAGE_TYPE='./lib/languages'
+ENV WIDGETS_PATH='./lib/widgets'
+ENV PUBLIC_DIR='./public'
+
+
+COPY . .
+
+RUN dart pub get 
+RUN dart pub get --offline 
+RUN dart build cli -t ./lib/app.dart -o ./build
+
+
+FROM frolvlad/alpine-glibc AS deploy
+
+ENV TZ=Europe/Amsterdam
+# RUN apt-get update && apt-get install -y tzdata && \
+#     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
+#     rm -rf /var/lib/apt/lists/*
+
+RUN apk add --no-cache sqlite-libs
+
+WORKDIR /www
+COPY --from=build /www/build/bundle/bin/app /www/lib/mcpserver.app
+COPY --from=build /www/build/bundle/lib /www/lib/
+COPY --from=build /www/public /www/public
+COPY --from=build /www/database /www/database
+
+RUN chmod -R a+rxw /www/
+
+RUN { \
+  echo '#!/bin/sh'; \
+  echo 'ls /www/lib/ &'; \
+  echo '/www/lib/mcpserver.app'; \
+} > /start.sh && chmod +x /start.sh
+
+EXPOSE 80
+CMD ["/start.sh"] 

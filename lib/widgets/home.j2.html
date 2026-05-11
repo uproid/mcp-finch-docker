@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple MCP Server</title>
+    {% include 'style.j2.html' %}
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav>
+      <div class="nav-inner">
+        <a class="logo" href="/">
+          <div class="logo-icon">@></div>
+          MCP Server
+        </a>
+        <div class="nav-links">
+          <a class="nav-link" href="https://finchdart.com">Docs</a>
+          <a
+            class="nav-link accent"
+            href="https://github.com/uproid/finch"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    {% block content %}
+    <!-- Hero -->
+    <section class="hero">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Open Source
+      </div>
+      <h1><span>Simple MCP Server</span></h1>
+      <p>Simple MCP Server, built with Finch framework in Dart.</p>
+      <div class="hero-buttons">
+        <a
+          class="btn btn-primary"
+          href="https://github.com/uproid/finch"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+            />
+          </svg>
+          View on GitHub
+        </a>
+        <a
+          class="btn btn-secondary"
+          href="https://finchdart.com"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
+            />
+          </svg>
+          Visit Website
+        </a>
+      </div>
+    </section>
+
+    <section class="docs">
+      <h2 class="docs-title">MCP Server connection:</h2>
+      <p class="docs-subtitle">
+        This project demonstrates a simple MCP (Model-Controller-Provider)
+        server built with the Finch framework in Dart. It serves as a starting
+        point for building your own MCP-based applications, showcasing routing,
+        template rendering, and internationalization features.
+      </p>
+
+      <div class="doc-section">
+        <h3><span class="dot blue"></span>MCP Connection</h3>
+        <p>Connect to the MCP server using the provided tools and APIs.</p>
+        <div class="code-block">
+          <span class="comment">Link</span><br />
+          <span class="cmd">{{ $e.url('/mcp') }}</span><br /><br />
+
+          <span class="comment">Authorization</span><br />
+          <span class="cmd">{{ API_KEY }}</span><br /><br />
+        </div>
+      </div>
+      <h2 class="docs-title">Todo List</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Todo ID</th>
+            <th>Title</th>
+            <th>Completed</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for todo in todos %}
+          <tr>
+            <td>{{ todo.id }}</td>
+            <td title="{{ todo.description }}">{{ todo.title }}</td>
+            <td>{{ todo.is_completed ? 'Yes' : 'No' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Documentation -->
+    <section class="docs" id="docs">
+      <div class="doc-section">
+        <h3><span class="dot cyan"></span>Project Structure</h3>
+        <p>
+          The project follows a clean and intuitive structure. Controllers
+          handle your routes, widgets define your templates with Jinja2 syntax,
+          and language files power the built-in i18n support.
+        </p>
+        <div class="code-block">
+          lib/<br />
+          &nbsp;&nbsp;├── app.dart
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            ># Entry point &amp; server setup</span
+          ><br />
+          &nbsp;&nbsp;├── serve.dart
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            ># File watcher for development</span
+          ><br />
+          &nbsp;&nbsp;├── controllers/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            ># Route controllers</span
+          ><br />
+          &nbsp;&nbsp;├── widgets/
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="comment"
+            ># Jinja2 HTML templates</span
+          ><br />
+          &nbsp;&nbsp;└── languages/
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+            ># i18n JSON files</span
+          >
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h3><span class="dot violet"></span>Finch Framework</h3>
+        <p>
+          Finch is a lightweight Dart web framework that provides routing,
+          middleware, template rendering, and internationalization out of the
+          box. It is designed for building fast, modern server-side applications
+          with minimal boilerplate.
+        </p>
+        <p>
+          Explore the full framework documentation and source code on
+          <a
+            href="https://github.com/uproid/finch"
+            target="_blank"
+            rel="noopener"
+            style="
+              color: var(--primary);
+              text-decoration: none;
+              font-weight: 600;
+            "
+            >GitHub</a
+          >.
+        </p>
+      </div>
+
+      <div class="doc-section">
+        <h3><span class="dot amber"></span>Deployment</h3>
+        <p>
+          The included Dockerfile and docker-compose.yaml make it easy to deploy
+          anywhere that supports containers. Build for production and expose on
+          your preferred port:
+        </p>
+        <div class="code-block">
+          <span class="comment"># Build and run in production</span><br />
+          <span class="cmd">docker compose</span> -f docker-compose.yaml up -d
+        </div>
+      </div>
+    </section>
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-inner">
+        <span class="footer-copy">@> Finch framework</span>
+        <div class="footer-links">
+          <a
+            href="https://github.com/uproid/finch"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+          <a href="https://finchdart.com" target="_blank" rel="noopener"
+            >finchdart.com</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

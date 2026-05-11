@@ -1,0 +1,14 @@
+services:
+  finch_app:
+    image: uproid/finch:latest
+    restart: always
+    working_dir: /www
+    ports:
+      - "80:80"
+    volumes:
+      - ./lib:/www/lib
+      - ./public:/www/public
+      - ./pubspec.yaml:/www/pubspec.yaml
+      - ./database:/www/database/
+      - ./migrations_sqlite:/www/migrations_sqlite/
+    command: ["sh", "-c", "finch get && finch serve -p /www/lib/watcher.dart"]
