@@ -5,6 +5,10 @@ services:
     working_dir: /www
     ports:
       - "80:80"
+      - "8181:8181"
+      - "8282:8282"
+    stdin_open: true
+    tty: true
     volumes:
       - ./lib:/www/lib
       - ./public:/www/public
